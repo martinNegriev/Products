@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -30,11 +31,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import com.example.productstask.R
 import com.example.productstask.productsSearch.data.remote.model.Product
 import com.example.productstask.productsSearch.presentation.state.ProductsSearchUiState
@@ -59,8 +62,10 @@ fun ProductsSearchScreen(
             }
         })
     }) {
-        ProductsSearchBar(uiState = uiState)
-        ProductsList(viewModel = viewModel)
+        Column {
+            ProductsSearchBar(uiState = uiState)
+            ProductsList(viewModel = viewModel)
+        }
     }
 }
 
@@ -143,8 +148,14 @@ fun ProductsList(viewModel: ProductsSearchViewModel) {
 
 @Composable
 fun ProductItem(item: Product) {
-    Column {
-        Text(text = item.title)
-        Text(text = item.description)
+    Column(modifier = Modifier.padding(16.dp)) {
+        AsyncImage(
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillWidth,
+            model = item.thumbnail,
+            contentDescription = "",
+        )
+        Text(text = item.title, fontSize = 20.sp)
+        Text(text = item.description, fontSize = 16.sp)
     }
 }

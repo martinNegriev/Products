@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.1"
+coilNetworkOkhttp = "3.0.3"
 converterGsonVersion = "2.6.1"
 gsonVersion = "2.11.0"
 hiltCompilerVersion = "2.44"
@@ -18,8 +19,9 @@ retrofitVersion = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilNetworkOkhttp" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
-google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompilerVersion" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

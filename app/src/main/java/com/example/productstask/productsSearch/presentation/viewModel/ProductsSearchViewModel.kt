@@ -7,8 +7,6 @@ import com.example.productstask.R
 import com.example.productstask.productsSearch.data.ProductsSearchRepository
 import com.example.productstask.productsSearch.presentation.state.ProductsSearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -25,7 +23,7 @@ class ProductsSearchViewModel
         private val _uiState = MutableStateFlow(ProductsSearchUiState())
         val uiState: StateFlow<ProductsSearchUiState> = _uiState
 
-        suspend fun getProducts() {
+        fun getProducts() {
             viewModelScope.launch {
                 _uiState.update {
                     it.copy(isLoading = true)
@@ -34,7 +32,7 @@ class ProductsSearchViewModel
                     val products = productsSearchRepository.getProducts().body()
                     if (products != null) {
                         _uiState.update {
-                            it.copy(isLoading = false, products = it.products)
+                            it.copy(isLoading = false, products = products.products)
                         }
                     } else {
                         _uiState.update {

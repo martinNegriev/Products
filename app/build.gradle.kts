@@ -56,7 +56,8 @@ dependencies {
     implementation(libs.retrofit2.retrofit)
     implementation(libs.google.gson)
     implementation(libs.retrofit2.converter.gson)
-
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)

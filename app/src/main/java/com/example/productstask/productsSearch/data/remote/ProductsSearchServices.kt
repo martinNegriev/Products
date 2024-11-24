@@ -1,7 +1,7 @@
 package com.example.productstask.productsSearch.data.remote
 
-import com.example.productstask.productsSearch.data.remote.model.Product
-import retrofit2.Call
+import com.example.productstask.productsSearch.data.remote.model.ProductsResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
@@ -12,5 +12,5 @@ interface ProductsSearchServices {
         "Content-Type: application/x-www-form-urlencoded",
     )
     @GET("/products")
-    suspend fun getProducts(): Call<List<Product>>
+    suspend fun getProducts(): Response<ProductsResponse>
 }
