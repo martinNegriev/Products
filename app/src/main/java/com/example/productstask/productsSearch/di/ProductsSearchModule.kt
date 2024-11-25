@@ -28,8 +28,7 @@ class ProductsSearchModule {
     fun provideProductsSearchViewModel(
         productsSearchRepository: ProductsSearchRepository,
         favoritesRepository: FavoritesRepository,
-        @ApplicationContext context: Context,
-    ): ProductsSearchViewModel = ProductsSearchViewModel(productsSearchRepository, favoritesRepository, context)
+    ): ProductsSearchViewModel = ProductsSearchViewModel(productsSearchRepository, favoritesRepository)
 
     @Provides
     fun provideFavoritesViewModel(favoritesRepository: FavoritesRepository): FavoritesViewModel = FavoritesViewModel(favoritesRepository)

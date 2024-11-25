@@ -1,6 +1,5 @@
 package com.example.productstask.productsSearch.presentation.viewModel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.productstask.favorites.data.FavoritesRepository
@@ -19,7 +18,6 @@ class ProductsSearchViewModel
     constructor(
         private val productsSearchRepository: ProductsSearchRepository,
         private val favoritesRepository: FavoritesRepository,
-        private val context: Context,
     ) : ViewModel(),
         ToggleFavoriteViewModel {
         private val _uiState = MutableStateFlow(ProductsSearchUiState())
