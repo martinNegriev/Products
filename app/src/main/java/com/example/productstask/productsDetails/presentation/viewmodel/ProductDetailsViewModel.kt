@@ -30,6 +30,9 @@ class ProductDetailsViewModel
         ) {
             viewModelScope.launch {
                 favoritesRepository.toggleFavorite(id = id, isFavorite = isFavorite)
+                _uiState.update {
+                    it?.copy(favorite = isFavorite)
+                }
             }
         }
 
