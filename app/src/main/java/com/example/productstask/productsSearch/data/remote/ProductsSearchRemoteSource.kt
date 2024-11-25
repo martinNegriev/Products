@@ -7,13 +7,14 @@ import javax.inject.Inject
 class ProductsSearchRemoteSource
     @Inject
     constructor(
-        private val servicesInstance: ServicesInstance
+        private val servicesInstance: ServicesInstance,
     ) {
         init {
             servicesInstance.setUpProductsSearch()
         }
 
-        suspend fun getProducts(): Response<ProductsResponse> {
-            return servicesInstance.productSearchServices.getProducts()
-        }
+        suspend fun getProducts(): Response<ProductsResponse> = servicesInstance.productSearchServices.getProducts()
+
+        suspend fun getProductsByQuery(query: String): Response<ProductsResponse> =
+            servicesInstance.productSearchServices.getProductsByQuery(query = query)
     }

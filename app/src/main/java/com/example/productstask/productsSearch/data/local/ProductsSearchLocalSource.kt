@@ -12,5 +12,7 @@ class ProductsSearchLocalSource(
         appDatabase.productsDao().insertProducts(*products.toTypedArray())
     }
 
-    fun getProductById(id: Int): ProductEntity = appDatabase.productsDao().getProductById(id)
+    fun getProductsById(ids: List<Int>): List<ProductEntity> = appDatabase.productsDao().getProductsById(ids)
+
+    fun deleteAllProducts() = appDatabase.productsDao().deleteAllProducts()
 }

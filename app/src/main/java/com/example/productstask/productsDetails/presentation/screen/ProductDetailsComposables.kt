@@ -26,7 +26,7 @@ fun ProductDetailsScreen(
         TopAppBar(title = { Text(text = stringResource(R.string.details)) }, actions = {})
     }) {
         LaunchedEffect(Unit) {
-            viewModel.getProductById(id)
+            viewModel.getProductById(listOf(id))
         }
         viewModel.uiState.collectAsState().value?.let {
             LazyColumn {

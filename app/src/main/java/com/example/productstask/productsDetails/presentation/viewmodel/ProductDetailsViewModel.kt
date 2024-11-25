@@ -33,9 +33,9 @@ class ProductDetailsViewModel
             }
         }
 
-        fun getProductById(id: Int) {
+        fun getProductById(ids: List<Int>) {
             viewModelScope.launch {
-                _uiState.update { productsSearchRepository.getProductById(id) }
+                _uiState.update { productsSearchRepository.getProductsById(ids).first() }
             }
+        }
     }
-}

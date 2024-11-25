@@ -18,11 +18,21 @@ class ProductsSearchRepository
         private val productsSearchLocalSource: ProductsSearchLocalSource,
         private val context: Context,
     ) {
-        suspend fun getProducts(refresh: Boolean = false): List<ProductEntity>? =
+        suspend fun getProducts(
+            refresh: Boolean = false,
+            query: String? = null,
+        ): List<ProductEntity> =
             withContext(Dispatchers.IO) {
+                var productEntities: List<ProductEntity>? = null
                 if (refresh) {
-                    val response = productsSearchRemoteSource.getProducts()
-                    var productEntities: List<ProductEntity>? = null
+                    val response =
+                        if (query?.isNotEmpty() == true) {
+                            productsSearchRemoteSource.getProductsByQuery(
+                                query = query,
+                            )
+                        } else {
+                            productsSearchRemoteSource.getProducts()
+                        }
                     if (response.isSuccessful) {
                         val products = response.body()
                         products?.let {
@@ -37,6 +47,9 @@ class ProductsSearchRepository
                                     )
                                 }
                             productEntities?.let { entities ->
+                                if (query.isNullOrEmpty()) {
+                                    productsSearchLocalSource.deleteAllProducts()
+                                }
                                 productsSearchLocalSource.saveProducts(entities)
                             }
                         }
@@ -44,11 +57,19 @@ class ProductsSearchRepository
                         throw Exception(context.getString(R.string.products_search_error))
                     }
                 }
-                productsSearchLocalSource.getProducts()
+                val entities = productEntities
+                if (query?.isNotEmpty() == true) {
+                    if (entities == null) {
+                        throw Exception(context.getString(R.string.products_search_error))
+                    }
+                    productsSearchLocalSource.getProductsById(entities.map { it.id })
+                } else {
+                    productsSearchLocalSource.getProducts()
+                }
             }
 
-        suspend fun getProductById(id: Int) =
+        suspend fun getProductsById(ids: List<Int>) =
             withContext(Dispatchers.IO) {
-                productsSearchLocalSource.getProductById(id)
+                productsSearchLocalSource.getProductsById(ids)
             }
     }

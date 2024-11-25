@@ -20,7 +20,10 @@ interface ProductsDao {
     @Query(
         "SELECT pe.id, pe.title, pe.description, pe.thumbnail, fe.favorite " +
             "FROM ProductEntity pe LEFT JOIN FavoriteEntity fe ON pe.id = fe.id " +
-            "WHERE pe.id = :id",
+            "WHERE pe.id IN (:ids)",
     )
-    fun getProductById(id: Int): ProductEntity
+    fun getProductsById(ids: List<Int>): List<ProductEntity>
+
+    @Query("DELETE FROM ProductEntity")
+    fun deleteAllProducts()
 }

@@ -41,7 +41,6 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.productstask.R
 import com.example.productstask.productsSearch.data.local.entity.ProductEntity
-import com.example.productstask.productsSearch.presentation.state.ProductsSearchUiState
 import com.example.productstask.productsSearch.presentation.viewModel.ProductsSearchViewModel
 import com.example.productstask.productsSearch.presentation.viewModel.ToggleFavoriteViewModel
 import com.example.productstask.ui.NestedAppScaffold
@@ -66,7 +65,9 @@ fun ProductsSearchScreen(
         })
     }) {
         Column {
-            ProductsSearchBar(uiState = uiState)
+            ProductsSearchBar { query ->
+                viewModel.getProducts(refresh = true, query = query)
+            }
             ProductsList(viewModel = viewModel, navController = navController)
         }
     }
@@ -74,9 +75,8 @@ fun ProductsSearchScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductsSearchBar(uiState: ProductsSearchUiState) {
+fun ProductsSearchBar(onSearch: (String?) -> Unit) {
     var text by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
 
     HorizontalDivider(thickness = 0.5.dp, color = Color.Black)
     SearchBar(
@@ -90,12 +90,10 @@ fun ProductsSearchBar(uiState: ProductsSearchUiState) {
             text = it
         },
         onSearch = {
-            active = false
+            onSearch.invoke(text)
         },
-        active = active,
-        onActiveChange = {
-            active = it
-        },
+        active = false,
+        onActiveChange = {},
         placeholder = {
             Text(text = stringResource(R.string.search_placeholder))
         },
@@ -109,6 +107,7 @@ fun ProductsSearchBar(uiState: ProductsSearchUiState) {
             if (text.isNotEmpty()) {
                 IconButton(onClick = {
                     text = ""
+                    onSearch.invoke(null)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Clear,
