@@ -35,12 +35,15 @@ fun FavoritesScreen(
     NestedAppScaffold(navController = navController, title = { }, topAppBar = {
         TopAppBar(title = { Text(text = stringResource(R.string.favorites_hint)) }, actions = {})
     }) {
-        FavoritesList(viewModel = viewModel)
+        FavoritesList(viewModel = viewModel, navController = navController)
     }
 }
 
 @Composable
-fun FavoritesList(viewModel: FavoritesViewModel) {
+fun FavoritesList(
+    viewModel: FavoritesViewModel,
+    navController: NavController,
+) {
     val uiState by viewModel.uiState.collectAsState()
     var reload by remember { mutableStateOf(false) }
     LaunchedEffect(reload) {
@@ -57,7 +60,7 @@ fun FavoritesList(viewModel: FavoritesViewModel) {
         if (uiState.favorites.isNotEmpty()) {
             LazyColumn {
                 items(uiState.favorites) { item ->
-                    ProductItem(item = item, viewModel = viewModel) {
+                    ProductItem(item = item, navController = navController, viewModel = viewModel) {
                         reload = true
                     }
                 }

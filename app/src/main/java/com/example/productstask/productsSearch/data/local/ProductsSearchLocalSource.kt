@@ -11,4 +11,6 @@ class ProductsSearchLocalSource(
     fun saveProducts(products: List<ProductEntity>) {
         appDatabase.productsDao().insertProducts(*products.toTypedArray())
     }
+
+    fun getProductById(id: Int): ProductEntity = appDatabase.productsDao().getProductById(id)
 }

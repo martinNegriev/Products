@@ -16,4 +16,11 @@ interface ProductsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProducts(vararg products: ProductEntity)
+
+    @Query(
+        "SELECT pe.id, pe.title, pe.description, pe.thumbnail, fe.favorite " +
+            "FROM ProductEntity pe LEFT JOIN FavoriteEntity fe ON pe.id = fe.id " +
+            "WHERE pe.id = :id",
+    )
+    fun getProductById(id: Int): ProductEntity
 }

@@ -11,4 +11,6 @@
     <string name="favorites_hint">Favorites</string>
     <string name="favorites_error">Error fetching favorites</string>
     <string name="no_favorites_found">No favorites found</string>
+    <string name="details">Details</string>
+    <string name="product_not_found">Product not found</string>
 </resources>

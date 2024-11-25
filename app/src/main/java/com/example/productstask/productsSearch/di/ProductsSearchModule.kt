@@ -6,6 +6,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.productstask.favorites.data.FavoritesRepository
 import com.example.productstask.favorites.presentation.viewmodel.FavoritesViewModel
+import com.example.productstask.productsDetails.presentation.viewmodel.ProductDetailsViewModel
 import com.example.productstask.productsSearch.data.ProductsSearchRepository
 import com.example.productstask.productsSearch.data.local.ProductsSearchLocalSource
 import com.example.productstask.productsSearch.data.local.db.AppDatabase
@@ -32,6 +33,12 @@ class ProductsSearchModule {
 
     @Provides
     fun provideFavoritesViewModel(favoritesRepository: FavoritesRepository): FavoritesViewModel = FavoritesViewModel(favoritesRepository)
+
+    @Provides
+    fun provideProductDetailsViewModel(
+        favoritesRepository: FavoritesRepository,
+        productsSearchRepository: ProductsSearchRepository,
+    ): ProductDetailsViewModel = ProductDetailsViewModel(favoritesRepository, productsSearchRepository)
 
     @Singleton
     @Provides
@@ -69,14 +76,16 @@ class ProductsSearchModule {
         .databaseBuilder(context, AppDatabase::class.java, "app_database")
         .addMigrations(
             MIGRATION_1_2,
-    ).build()
+        ).build()
 
     companion object {
         val MIGRATION_1_2 =
             object : Migration(1, 2) {
                 override fun migrate(db: SupportSQLiteDatabase) {
-                    db.execSQL("CREATE TABLE IF NOT EXISTS `FavoriteEntity` " +
-                            "(`id` INTEGER NOT NULL, 'favorite' INTEGER NOT NULL, PRIMARY KEY(`id`))")
+                    db.execSQL(
+                        "CREATE TABLE IF NOT EXISTS `FavoriteEntity` " +
+                            "(`id` INTEGER NOT NULL, 'favorite' INTEGER NOT NULL, PRIMARY KEY(`id`))",
+                    )
                 }
             }
     }

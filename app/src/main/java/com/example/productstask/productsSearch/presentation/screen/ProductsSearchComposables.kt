@@ -1,5 +1,6 @@
 package com.example.productstask.productsSearch.presentation.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -66,7 +67,7 @@ fun ProductsSearchScreen(
     }) {
         Column {
             ProductsSearchBar(uiState = uiState)
-            ProductsList(viewModel = viewModel)
+            ProductsList(viewModel = viewModel, navController = navController)
         }
     }
 }
@@ -121,7 +122,10 @@ fun ProductsSearchBar(uiState: ProductsSearchUiState) {
 }
 
 @Composable
-fun ProductsList(viewModel: ProductsSearchViewModel) {
+fun ProductsList(
+    viewModel: ProductsSearchViewModel,
+    navController: NavController,
+) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.getProducts(refresh = false)
@@ -137,7 +141,7 @@ fun ProductsList(viewModel: ProductsSearchViewModel) {
         if (uiState.products.isNotEmpty()) {
             LazyColumn {
                 items(uiState.products) { item ->
-                    ProductItem(item = item, viewModel = viewModel)
+                    ProductItem(item = item, navController = navController, viewModel = viewModel)
                 }
             }
         }
@@ -162,9 +166,15 @@ fun ErrorScreen(message: String) {
 fun ProductItem(
     item: ProductEntity,
     viewModel: ToggleFavoriteViewModel,
+    navController: NavController?,
     onToggle: () -> Unit = {},
 ) {
-    Box {
+    Box(
+        modifier =
+            Modifier.clickable(enabled = navController != null) {
+                navController?.navigate(ScreenRoutes.PRODUCT_DETAILS.route + "/${item.id}")
+            },
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),

@@ -46,4 +46,9 @@ class ProductsSearchRepository
                 }
                 productsSearchLocalSource.getProducts()
             }
+
+        suspend fun getProductById(id: Int) =
+            withContext(Dispatchers.IO) {
+                productsSearchLocalSource.getProductById(id)
+            }
     }
