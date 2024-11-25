@@ -1,7 +1,6 @@
-package com.example.productstask.service
+package com.example.productstask.productsSearch.data.remote
 
 import android.annotation.SuppressLint
-import com.example.productstask.productsSearch.data.remote.ProductsSearchServices
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,9 +47,7 @@ class ServicesInstance
                         ) {
                         }
 
-                        override fun getAcceptedIssuers(): Array<X509Certificate> {
-                            return arrayOf()
-                        }
+                        override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
                     },
                 )
 

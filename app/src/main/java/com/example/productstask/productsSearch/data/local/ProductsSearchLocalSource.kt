@@ -1,9 +1,14 @@
 package com.example.productstask.productsSearch.data.local
 
-import com.example.productstask.productsSearch.data.remote.model.Product
+import com.example.productstask.productsSearch.data.local.db.AppDatabase
+import com.example.productstask.productsSearch.data.local.entity.ProductEntity
 
-class ProductsSearchLocalSource {
-    fun saveProducts(products: List<Product>) {
+class ProductsSearchLocalSource(
+    private val appDatabase: AppDatabase,
+) {
+    fun getProducts(): List<ProductEntity> = appDatabase.productsDao().getProducts()
 
+    fun saveProducts(products: List<ProductEntity>) {
+        appDatabase.productsDao().insertProducts(*products.toTypedArray())
     }
 }
